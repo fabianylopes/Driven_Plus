@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router';
 import styled from "styled-components";
-import Logo from '../assets/driven.png'
+import Logo from '../assets/driven.png';
+import axios from "axios";
 
-export default function Cadastro(){
+export default function Register(){
 
     const navigate = useNavigate();
 
@@ -13,6 +14,28 @@ export default function Cadastro(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    function handleRegister(){
+        
+        const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up", {
+            email,
+            name,
+            CPF,
+            password
+        });
+
+        promise.then(handleSuccess);
+        promise.catch(handleFailure);
+    }
+
+    function handleSuccess(){
+        navigate('/');
+    }
+
+    function handleFailure(error){
+        alert(error.response.data.message);
+        console.log(error);
+    }
+
     return (
         <Container>
             <img src={Logo}></img>
@@ -20,7 +43,7 @@ export default function Cadastro(){
             <Input type="number" placeholder="CPF" onChange={e => setCPF(e.target.value)}></Input>
             <Input type="email" placeholder="E-mail" onChange={e => setEmail(e.target.value)}></Input>
             <Input type="password" placeholder="Senha" onChange={e => setPassword(e.target.value)}></Input>
-            <Button type="submit">CADASTRAR</Button>
+            <Button type="submit" onClick={handleRegister}>CADASTRAR</Button>
             <StyledLink to="/">Já possui uma conta? Entre</StyledLink>
         </Container>
     );
@@ -59,6 +82,7 @@ const Button = styled.button`
     margin-bottom: 24px;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 `
 
 const StyledLink = styled(Link)`

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router';
 import styled from "styled-components";
 import Logo from '../assets/driven.png'
+import axios from "axios";
 
 export default function Login(){
     
@@ -11,38 +12,33 @@ export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // function handleLogin() {
+    function handleLogin() {
     
-    //     setLoading(true);
 
-    //     const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", {
-    //       email,
-    //       password
-    //     });
+        const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", {
+          email,
+          password
+        });
     
-    //     promise.then(handleSuccess);
-    //     promise.catch(handleFailure);
-    // }
+        promise.then(handleSuccess);
+        promise.catch(handleFailure);
+    }
 
-    // function handleSuccess(response){
-    //     navigate('/hoje');
-    //     setToken(response.data);
-    // }
+    function handleSuccess(){
+        navigate('/subscriptions');
+    }
 
-    // function handleFailure(error){
-    //     setEmail('');
-    //     setPassword('');
-    //     alert(error.response.data.message);
-    //     setLoading(false);
-    // }
+    function handleFailure(error){
+        console.log(error);
+    }
 
     return (
         <Container>
             <img src={Logo}></img>
             <Input type="email" placeholder="E-mail" onChange={e => setEmail(e.target.value)}></Input>
             <Input type="password" placeholder="Senha" onChange={e => setPassword(e.target.value)}></Input>
-            <Button type="submit">ENTRAR</Button>
-            <StyledLink to="/cadastro">Não possui uma conta? Cadastre-se</StyledLink>
+            <Button type="submit" onClick={handleLogin}>ENTRAR</Button>
+            <StyledLink to="/register">Não possui uma conta? Cadastre-se</StyledLink>
         </Container>
     );
 }
@@ -80,6 +76,7 @@ const Button = styled.button`
     margin-bottom: 24px;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 `
 
 const StyledLink = styled(Link)`
