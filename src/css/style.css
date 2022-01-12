@@ -1,0 +1,16 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.root {
+    width: 375px;
+    height: 667px;
+    background-color: #000;
+
+    display: flex;
+    justify-content: center;
+}
