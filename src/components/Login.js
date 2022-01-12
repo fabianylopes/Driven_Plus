@@ -24,12 +24,17 @@ export default function Login(){
         promise.catch(handleFailure);
     }
 
-    function handleSuccess(){
-        navigate('/subscriptions');
+    function handleSuccess(response){
+        const status = response.data.membership;
+        if(status === null){
+            navigate('/subscriptions');
+        }else{
+            navigate('/home');
+        }
     }
 
     function handleFailure(error){
-        console.log(error);
+        alert(error.response.data.message);
     }
 
     return (

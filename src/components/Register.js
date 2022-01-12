@@ -17,10 +17,10 @@ export default function Register(){
     function handleRegister(){
         
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up", {
-            email,
-            name,
-            CPF,
-            password
+            email: email,
+            name: name,
+            cpf: CPF,
+            password: password
         });
 
         promise.then(handleSuccess);
