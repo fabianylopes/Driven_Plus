@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { useNavigate } from 'react-router';
 import styled from "styled-components";
-// import Silver from '../assets/silver.png'
-// import Gold from '../assets/gold.png'
-// import Platinum from '../assets/platinum.png'
+import Silver from '../assets/silver.png'
+import Gold from '../assets/gold.png'
+import Platinum from '../assets/platinum.png'
 import axios from "axios";
 
 export default function Subscriptions(){
 
+    const { idPlan } = useParams();
+
     const [plano, setPlano] = useState({});
 
     useEffect(() => {
-		const promess = axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships");
+		const promess = axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${idPlan}`);
 		promess.then(response => {setPlano(response.data)});
 	}, []);
 
@@ -21,16 +23,18 @@ export default function Subscriptions(){
         <Container>
             <Titulo>Escolha seu Plano</Titulo>
             <Planos>
-                {plano.map(() =>
+                {/* {plano.map(() =>
                 <Plano>
                     <img src={image}></img>
                     <Valor>{price}</Valor>
                 </Plano>
-                    )}
-                {/* <Plano>
-                    <img src={Silver}></img>
-                    <Valor>R$ 39,99</Valor>
-                </Plano>
+                    )} */}
+                <Link>
+                    <Plano>
+                        <img src={Silver}></img>
+                        <Valor>R$ 39,99</Valor>
+                    </Plano>
+                </Link>
                 <Plano>
                     <img src={Gold}></img>
                     <Valor>R$ 69,99</Valor>
@@ -38,7 +42,7 @@ export default function Subscriptions(){
                 <Plano>
                     <img src={Platinum}></img>
                     <Valor>R$ 99,99</Valor>
-                </Plano> */}
+                </Plano>
             </Planos>
         </Container>
     );
