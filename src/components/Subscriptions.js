@@ -1,49 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
-// import { useNavigate } from 'react-router';
 import styled from "styled-components";
-import Silver from '../assets/silver.png'
-import Gold from '../assets/gold.png'
-import Platinum from '../assets/platinum.png'
 import axios from "axios";
+
+import UserContext from '../contexcts/UserContext';
 
 export default function Subscriptions(){
 
-    const { idPlan } = useParams();
+    const { token } = useContext(UserContext);
 
-    const [plano, setPlano] = useState({});
+    const [planos, setPlanos] = useState([]);
+
 
     useEffect(() => {
-		const promess = axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${idPlan}`);
-		promess.then(response => {setPlano(response.data)});
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+		const promise = axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships", config);
+		promise.then(response => {setPlanos(response.data)});
+        promise.catch(error => console.log(error.response));
+        
 	}, []);
 
-
-    return(
+    
+     return(
         <Container>
             <Titulo>Escolha seu Plano</Titulo>
-            <Planos>
-                {/* {plano.map(() =>
-                <Plano>
-                    <img src={image}></img>
-                    <Valor>{price}</Valor>
-                </Plano>
-                    )} */}
-                <Link>
-                    <Plano>
-                        <img src={Silver}></img>
-                        <Valor>R$ 39,99</Valor>
-                    </Plano>
-                </Link>
-                <Plano>
-                    <img src={Gold}></img>
-                    <Valor>R$ 69,99</Valor>
-                </Plano>
-                <Plano>
-                    <img src={Platinum}></img>
-                    <Valor>R$ 99,99</Valor>
-                </Plano>
-            </Planos>
+            <Plans>
+                {planos.map(plano => 
+                <Link to={`/plano/${plano.id}`}>
+                    <Plan>
+                        <img src={plano.image}></img>
+                        <Valor>{plano.price}</Valor>
+                    </Plan>
+                </Link>)}
+            </Plans>
         </Container>
     );
 }
@@ -62,11 +56,11 @@ const Titulo = styled.p`
     margin-bottom: 24px;
 `
 
-const Planos = styled.div`
+const Plans = styled.div`
     
 `
 
-const Plano = styled.button`
+const Plan = styled.button`
     width: 290px;
     height: 180px;
     border-radius: 12px;

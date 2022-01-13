@@ -1,38 +1,62 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from "styled-components";
 import Arrow from '../assets/arrow.png';
-import Silver from '../assets/silver.png'
 import List from '../assets/clipboard-task-list.png';
 import Money from '../assets/money.png'
+import UserContext from '../contexcts/UserContext';
+import axios from "axios";
 
 export default function Plan(){
+
+    const { idPlan } = useParams();
+
+    const { token } = useContext(UserContext);
+
+    const [plan, setPlan] = useState();
 
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [securityNumber, setSecurityNumber] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
 
+    useEffect(() => {
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+		const promise = axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${idPlan}`, config);
+		promise.then(response => {setPlan(response.data)});
+	}, []);
+
     return(
         <Container>
             <StyledLink to="/subscriptions">
                 <img src={Arrow}></img>
             </StyledLink>
-            <Logo>
-                <img src={Silver}></img>
-                <Titulo>Driven Plus</Titulo>
-            </Logo>
-            <Beneficios>
-                <img src={List}></img>
-                <H>Benefícios:</H>
-                <P>1. Brindes exclusivos</P>
-                <P>2. Materiais bônus de web</P>
-            </Beneficios>
-            <Preco>
-                <img src={Money}></img>
-                <H>Preco:</H>
-                <P>R$ 39,99 cobrados mensalmente</P>
-            </Preco>
+            <div>
+
+                <Logo>
+                    <img src={plan.image}></img>
+                    <Titulo>Driven Plus</Titulo>
+                </Logo>
+
+                <Beneficios>
+                    <img src={List}></img>
+                    <H>Benefícios:</H>
+                    <P>1. Brindes exclusivos</P>
+                    <P>2. Materiais bônus de web</P>
+                </Beneficios>
+
+                <Preco>
+                    <img src={Money}></img>
+                    <H>Preco:</H>
+                    <P>R$ 39,99 cobrados mensalmente</P>
+                </Preco>
+            </div>
             <Input type="text" placeholder="Nome impresso no cartão" onChange={e => setCardName(e.target.value)}></Input>
             <Input type="number" placeholder="Digitos do cartão" onChange={e => setCardNumber(e.target.value)}></Input>
             <Inputs>

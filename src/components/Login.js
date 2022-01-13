@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router';
 import styled from "styled-components";
 import Logo from '../assets/driven.png'
 import axios from "axios";
+import UserContext from '../contexcts/UserContext';
 
 export default function Login(){
     
+    const { token, setToken } = useContext(UserContext);
+
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
@@ -25,18 +28,21 @@ export default function Login(){
     }
 
     function handleSuccess(response){
+        setToken(response.data.token);
+        
         const status = response.data.membership;
         if(status === null){
             navigate('/subscriptions');
         }else{
             navigate('/home');
         }
+
     }
 
     function handleFailure(error){
         alert(error.response.data.message);
     }
-
+    
     return (
         <Container>
             <img src={Logo}></img>
