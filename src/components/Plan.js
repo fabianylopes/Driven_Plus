@@ -13,7 +13,7 @@ export default function Plan(){
 
     const { token } = useContext(UserContext);
 
-    const [plan, setPlan] = useState();
+    const [plan, setPlan] = useState([]);
 
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
@@ -30,7 +30,9 @@ export default function Plan(){
 
 		const promise = axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${idPlan}`, config);
 		promise.then(response => {setPlan(response.data)});
+        promise.catch(error => console.log(error.response));
 	}, []);
+
 
     return(
         <Container>
@@ -38,10 +40,9 @@ export default function Plan(){
                 <img src={Arrow}></img>
             </StyledLink>
             <div>
-
                 <Logo>
                     <img src={plan.image}></img>
-                    <Titulo>Driven Plus</Titulo>
+                    <Titulo>{plan.name}</Titulo>
                 </Logo>
 
                 <Beneficios>
@@ -53,10 +54,11 @@ export default function Plan(){
 
                 <Preco>
                     <img src={Money}></img>
-                    <H>Preco:</H>
-                    <P>R$ 39,99 cobrados mensalmente</P>
+                    <H>Preço:</H>
+                    <P>R$ {plan.price} cobrados mensalmente</P>
                 </Preco>
             </div>
+
             <Input type="text" placeholder="Nome impresso no cartão" onChange={e => setCardName(e.target.value)}></Input>
             <Input type="number" placeholder="Digitos do cartão" onChange={e => setCardNumber(e.target.value)}></Input>
             <Inputs>
