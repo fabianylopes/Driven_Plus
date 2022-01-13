@@ -33,7 +33,6 @@ export default function Register(){
 
     function handleFailure(error){
         alert(error.response.data.message);
-        console.log(error);
     }
 
     return (

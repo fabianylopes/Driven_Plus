@@ -6,7 +6,7 @@ export default function Home(){
     return (
         <Container>
             <Header>
-                <img src={Silver}></img>
+                <Logo src={Silver}></Logo>
                 <img src={User}></img>
             </Header>
             <Titulo>Olá, fulano</Titulo>
@@ -14,15 +14,17 @@ export default function Home(){
                 <Button>Solicitar brindes</Button>   
                 <Button>Materiais bônus de web</Button>
             </ButtonsTop>
-            <div>
+            <ButtonsBottom>
                 <Button>Mudar plano</Button>   
                 <CancelButton>Cancelar plano</CancelButton>
-            </div>
+            </ButtonsBottom>
         </Container>
     );
 }
 
 const Container = styled.div`
+    padding-top: 32px;
+    padding-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,14 +32,37 @@ const Container = styled.div`
 `
 
 const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    img{
+        width: 34px;
+        height: 34px;
+    }
+`
+
+const Logo = styled.img`
+    width: 74px;
+    height: 51px;
 `
 
 const Titulo = styled.p`
     color: #fff;
+    font-size: 24px;
+    font-weight: 700;
 `
 
 const ButtonsTop = styled.div`
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+`
+
+const ButtonsBottom = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 `
 
 const Button = styled.button`

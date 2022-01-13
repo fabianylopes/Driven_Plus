@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import styled from "styled-components";
 import Arrow from '../assets/arrow.png';
 import List from '../assets/clipboard-task-list.png';
@@ -8,6 +9,7 @@ import UserContext from '../contexcts/UserContext';
 import axios from "axios";
 
 export default function Plan(){
+    const navigate = useNavigate();
 
     const { idPlan } = useParams();
 
@@ -19,6 +21,34 @@ export default function Plan(){
     const [cardNumber, setCardNumber] = useState('');
     const [securityNumber, setSecurityNumber] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+
+    function Subscribe(){
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions", 
+        {
+            membershipId: idPlan,
+            cardName,
+            cardNumber,
+            securityNumber,
+            expirationDate
+        }, 
+        config);
+
+        promise.then(handleSuccess);
+        promise.catch(handleFailure);
+    }
+    
+    function handleSuccess(){
+        navigate('/home');
+    }
+
+    function handleFailure(error){
+        alert(error.response.data.message);
+    }
 
     useEffect(() => {
 
@@ -65,10 +95,12 @@ export default function Plan(){
                 <SmallerInput type="number" placeholder="Código de segurança" onChange={e => setSecurityNumber(e.target.value)}></SmallerInput>
                 <SmallerInput type="text" placeholder="Validade" onChange={e => setExpirationDate(e.target.value)}></SmallerInput>
             </Inputs>
-            <Button type="submit">ASSINAR</Button>
+            <Button type="submit" onClick={Subscribe}>ASSINAR</Button>
         </Container>
     )
 }
+
+
 
 const Container = styled.div`
     display: flex;
