@@ -1,22 +1,58 @@
+import { useContext } from 'react';
+import { useNavigate } from 'react-router';
 import styled from "styled-components";
-import Silver from '../assets/silver.png';
 import User from '../assets/user-icon.png';
+import UserContext from '../contexcts/UserContext';
+import axios from "axios";
 
 export default function Home(){
+
+    const navigate = useNavigate();
+
+    const { name, membership, token } = useContext(UserContext);
+
+    function changePlan(){
+        cancelPlan();
+        navigate('/subscriptions');
+    }
+
+    function cancelPlan(){
+            
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        
+        const promise = axios.delete("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions", config);
+        promise.then(handleSuccess);
+        promise.catch(error => console.log(error.response));
+            
+        function handleSuccess(){
+            navigate('/subscriptions');
+        }
+
+    }
+        
     return (
         <Container>
             <Header>
-                <Logo src={Silver}></Logo>
+                <Logo src={membership.image}></Logo>
                 <img src={User}></img>
             </Header>
-            <Titulo>Olá, fulano</Titulo>
+            <Titulo>Olá, {name}</Titulo>
+
             <ButtonsTop>
-                <Button>Solicitar brindes</Button>   
-                <Button>Materiais bônus de web</Button>
+                {membership.perks.map(perk => 
+                    <a href={perk.link} target="_blank">
+                        <Button>{perk.title}</Button>   
+                    </a>
+                )}
             </ButtonsTop>
+
             <ButtonsBottom>
-                <Button>Mudar plano</Button>   
-                <CancelButton>Cancelar plano</CancelButton>
+                <Button onClick={changePlan}>Mudar plano</Button>   
+                <CancelButton onClick={cancelPlan}>Cancelar plano</CancelButton>
             </ButtonsBottom>
         </Container>
     );

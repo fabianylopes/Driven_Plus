@@ -13,6 +13,7 @@ export default function Subscriptions(){
 
 
     useEffect(() => {
+        
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`

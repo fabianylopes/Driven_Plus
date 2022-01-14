@@ -8,7 +8,7 @@ import UserContext from '../contexcts/UserContext';
 
 export default function Login(){
     
-    const { token, setToken } = useContext(UserContext);
+    const { setToken, setName, setMembership } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -29,6 +29,8 @@ export default function Login(){
 
     function handleSuccess(response){
         setToken(response.data.token);
+        setName(response.data.name);
+        setMembership(response.data.membership);
         
         const status = response.data.membership;
         if(status === null){

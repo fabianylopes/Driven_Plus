@@ -7,49 +7,58 @@ import List from '../assets/clipboard-task-list.png';
 import Money from '../assets/money.png'
 import UserContext from '../contexcts/UserContext';
 import axios from "axios";
+//import X from '../assets/close.png'
+import Modal from './Modal';
+
+export {infos}
+let infos = {}
 
 export default function Plan(){
+
+
     const navigate = useNavigate();
 
     const { idPlan } = useParams();
-
     const { token } = useContext(UserContext);
 
+    
     const [plan, setPlan] = useState([]);
-
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [securityNumber, setSecurityNumber] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
 
-    function Subscribe(){
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions", 
-        {
-            membershipId: idPlan,
-            cardName,
-            cardNumber,
-            securityNumber,
-            expirationDate
-        }, 
-        config);
+    const [showModal, setShowModal] = useState(false);
 
-        promise.then(handleSuccess);
-        promise.catch(handleFailure);
-    }
+    // function Subscribe(){
+    //     const config = {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         }
+    //     }
+    //     const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions", 
+    //     {
+    //         membershipId: idPlan,
+    //         cardName,
+    //         cardNumber,
+    //         securityNumber,
+    //         expirationDate
+    //     }, 
+    //     config);
+
+    //     promise.then(handleSuccess);
+    //     promise.catch(handleFailure);
+    // }
     
-    function handleSuccess(){
-        navigate('/home');
-    }
+    // function handleSuccess(){
+    //     navigate('/home');
+    // }
 
-    function handleFailure(error){
-        alert(error.response.data.message);
-    }
+    // function handleFailure(error){
+    //     alert(error.response.data.message);
+    // }
 
+    
     useEffect(() => {
 
         const config = {
@@ -61,8 +70,19 @@ export default function Plan(){
 		const promise = axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${idPlan}`, config);
 		promise.then(response => {setPlan(response.data)});
         promise.catch(error => console.log(error.response));
+
+        
 	}, []);
 
+    infos = {
+        token: token,
+        idPlan: idPlan,
+        cardName: cardName,
+        cardNumber: cardNumber,
+        securityNumber: securityNumber,
+        expirationDate: expirationDate,
+        price: plan.price
+    }
 
     return(
         <Container>
@@ -74,32 +94,29 @@ export default function Plan(){
                     <img src={plan.image}></img>
                     <Titulo>{plan.name}</Titulo>
                 </Logo>
-
                 <Beneficios>
                     <img src={List}></img>
                     <H>Benefícios:</H>
                     <P>1. Brindes exclusivos</P>
                     <P>2. Materiais bônus de web</P>
                 </Beneficios>
-
                 <Preco>
                     <img src={Money}></img>
                     <H>Preço:</H>
                     <P>R$ {plan.price} cobrados mensalmente</P>
                 </Preco>
             </div>
-
+            {showModal && <Modal/>}
             <Input type="text" placeholder="Nome impresso no cartão" onChange={e => setCardName(e.target.value)}></Input>
             <Input type="number" placeholder="Digitos do cartão" onChange={e => setCardNumber(e.target.value)}></Input>
             <Inputs>
                 <SmallerInput type="number" placeholder="Código de segurança" onChange={e => setSecurityNumber(e.target.value)}></SmallerInput>
                 <SmallerInput type="text" placeholder="Validade" onChange={e => setExpirationDate(e.target.value)}></SmallerInput>
             </Inputs>
-            <Button type="submit" onClick={Subscribe}>ASSINAR</Button>
+            <Button type="submit" onClick={() => setShowModal(true)}>ASSINAR</Button>
         </Container>
     )
 }
-
 
 
 const Container = styled.div`
@@ -125,6 +142,7 @@ const Titulo = styled.p`
     color: #fff;
     font-weight: 700;
     font-size: 32px;
+    margin-top: 12px;
     margin-bottom: 24px;
 `
 
@@ -167,7 +185,8 @@ const SmallerInput = styled.input`
 `
 
 const Inputs = styled.div`
-
+    display: flex;
+    justify-content: space-between;
 `
 
 const Button = styled.button`
@@ -183,3 +202,4 @@ const Button = styled.button`
 const StyledLink = styled(Link)`
     cursor: pointer;
 `
+
