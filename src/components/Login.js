@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router';
 import styled from "styled-components";
 import Logo from '../assets/driven.png'
 import axios from "axios";
 import UserContext from '../contexcts/UserContext';
+
 
 export default function Login(){
     
@@ -17,7 +18,6 @@ export default function Login(){
 
     function handleLogin() {
     
-
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", {
           email,
           password

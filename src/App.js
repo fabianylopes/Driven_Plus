@@ -5,12 +5,11 @@ import Register from "./components/Register";
 import Subscriptions from "./components/Subscriptions";
 import Home from "./components/Home";
 import Plan from "./components/Plan";
-//import Modal from "./components/Modal";
 
 import UserContext from "./contexcts/UserContext";
 
 export default function App(){
-
+   
     const [name, setName] = useState('');
     const [membership, setMembership] = useState([]);
     const [token, setToken] = useState('');
@@ -25,7 +24,6 @@ export default function App(){
                     <Route path="/home" element={<Home/>}></Route>
                     <Route path="/plano/:idPlan" element={<Plan/>}></Route>
                 </Routes>
-                
             </BrowserRouter>
         </UserContext.Provider>
     );

@@ -15,13 +15,11 @@ let infos = {}
 
 export default function Plan(){
 
-
     const navigate = useNavigate();
 
     const { idPlan } = useParams();
     const { token } = useContext(UserContext);
 
-    
     const [plan, setPlan] = useState([]);
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
@@ -29,34 +27,6 @@ export default function Plan(){
     const [expirationDate, setExpirationDate] = useState('');
 
     const [showModal, setShowModal] = useState(false);
-
-    // function Subscribe(){
-    //     const config = {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-    //         }
-    //     }
-    //     const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions", 
-    //     {
-    //         membershipId: idPlan,
-    //         cardName,
-    //         cardNumber,
-    //         securityNumber,
-    //         expirationDate
-    //     }, 
-    //     config);
-
-    //     promise.then(handleSuccess);
-    //     promise.catch(handleFailure);
-    // }
-    
-    // function handleSuccess(){
-    //     navigate('/home');
-    // }
-
-    // function handleFailure(error){
-    //     alert(error.response.data.message);
-    // }
 
     
     useEffect(() => {
