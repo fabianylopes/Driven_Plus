@@ -1,15 +1,10 @@
-// import { useContext } from 'react';
-// import UserContext from '../contexcts/UserContext';
 import styled from "styled-components";
 import axios from "axios";
 import X from '../assets/close.png'
 import { useNavigate } from 'react-router';
 import { infos } from "../components/Plan";
-import { useState } from "react/cjs/react.development";
 
 export default function Modal({ setShowModal }){
-
-    const [image, setImage] = useState('');
 
     const navigate = useNavigate();
 
@@ -33,9 +28,8 @@ export default function Modal({ setShowModal }){
         promise.catch(handleFailure);
     }
     
-    function handleSuccess(response){
-        setImage(response.data.image);
-        navigate('/home');
+    function handleSuccess(){
+        navigate('/home2');
     }
 
     function handleFailure(error){
@@ -43,27 +37,55 @@ export default function Modal({ setShowModal }){
     }
 
     return(
-        <ContainerModal>
-            <Caixa>
-                <Texto>Tem certeza que deseja assinar o plano <br></br>Driven Plus (R$ {infos.price})?</Texto>
-                <ButtonsModal>
-                    <NoButton onClick={() => setShowModal(false)}>Não</NoButton>
-                    <YesButton onClick={Subscribe}>SIM</YesButton>
-                </ButtonsModal>
-            </Caixa>
-        </ContainerModal>
+        <Container>
+            <DivImage>
+                <Image onClick={() => setShowModal(false)} src={X}></Image>
+            </DivImage>
+            <DivBox>
+                <Caixa>
+                    <Texto>Tem certeza que deseja assinar o plano <br></br>Driven Plus (R$ {infos.price})?</Texto>
+                    <ButtonsModal>
+                        <NoButton onClick={() => setShowModal(false)}>Não</NoButton>
+                        <YesButton onClick={Subscribe}>SIM</YesButton>
+                    </ButtonsModal>
+                </Caixa>
+            </DivBox>
+        </Container>
     )
 }
 
-const ContainerModal = styled.div`
+const Container = styled.div`
     width: 375px;
     height: 667px;
     background: rgba(0, 0, 0, 0.7);
-
     position: absolute;
     
+    
+    padding-bottom: 228px;
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `
 
+const DivImage = styled.div`
+    padding-top: 25px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: end;
+`
+
+const Image = styled.img`
+    z-index: 2;
+    cursor: pointer;
+`
+
+const DivBox = styled.div`
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 const Caixa = styled.div`
     width: 248px;

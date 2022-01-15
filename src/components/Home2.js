@@ -4,13 +4,13 @@ import styled from "styled-components";
 import User from '../assets/user-icon.png';
 import UserContext from '../contexcts/UserContext';
 import axios from "axios";
+import { infos } from './Plan';
 
-
-export default function Home(){
+export default function Home2(){
 
     const navigate = useNavigate();
 
-    const { name, membership, token } = useContext(UserContext);
+    const { name, token } = useContext(UserContext);
 
     function cancelPlan(){
             
@@ -35,7 +35,7 @@ export default function Home(){
             <Top>
                 <Images>
                     <Logo>
-                        <img src={membership.image}></img>
+                        <img src={infos.image}></img>
                     </Logo>
                     <UserIcon>
                         <img src={User}></img>
@@ -47,7 +47,7 @@ export default function Home(){
             </Top>
             <Bottom>
                 <ButtonsTop>
-                    {membership.perks.map(perk => 
+                    {infos.perks.map(perk => 
                         <a href={perk.link} target="_blank">
                             <Button>{perk.title}</Button>   
                         </a>

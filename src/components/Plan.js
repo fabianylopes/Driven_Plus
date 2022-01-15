@@ -55,49 +55,54 @@ export default function Plan({showModal, setShowModal}){
         securityNumber: securityNumber,
         expirationDate: expirationDate,
         price: plan.price,
+        image: plan.image,
+        perks: plan.perks
     }
 
     return(
-        <Container>
-            <StyledLink to="/subscriptions">
-                <img src={Arrow}></img>
-            </StyledLink>
-            <Logo>
-                <img src={plan.image}></img>
-                <Titulo>{plan.name}</Titulo>
-            </Logo>
-            <Div>
-                <img src={List}></img>
-                <H>Benefícios:</H>
-            </Div>
-            <div>
-                <P>1. Brindes exclusivos</P>
-                <P>2. Materiais bônus de web</P>
-            </div>
-            <Div>
-                <img src={Money}></img>
-                <H>Preço:</H>
-            </Div>
-            <div>
-                <P>R$ {plan.price} cobrados mensalmente</P>
-            </div>
-            <Dados>
-                <Input type="text" placeholder="Nome impresso no cartão" onChange={e => setCardName(e.target.value)}></Input>
-                <Input type="number" placeholder="Digitos do cartão" onChange={e => setCardNumber(e.target.value)}></Input>
-                <Inputs>
-                    <SmallerInput type="number" placeholder="Código de segurança" onChange={e => setSecurityNumber(e.target.value)}></SmallerInput>
-                    <SmallerInput type="text" placeholder="Validade" onChange={e => setExpirationDate(e.target.value)}></SmallerInput>
-                </Inputs>
-                <Button type="submit" onClick={() => setShowModal(true)}>ASSINAR</Button>
-                {showModal && <Modal setShowModal={setShowModal}/>}
-            </Dados>
-        </Container>
+        <>
+            <Container>
+                <Back to="/subscriptions">
+                    <img src={Arrow}></img>
+                </Back>
+                <Logo>
+                    <img src={plan.image}></img>
+                    <Titulo>{plan.name}</Titulo>
+                </Logo>
+                <Div>
+                    <img src={List}></img>
+                    <H>Benefícios:</H>
+                </Div>
+                <div>
+                    <P>1. Brindes exclusivos</P>
+                    <P>2. Materiais bônus de web</P>
+                </div>
+                <Div>
+                    <img src={Money}></img>
+                    <H>Preço:</H>
+                </Div>
+                <div>
+                    <P>R$ {plan.price} cobrados mensalmente</P>
+                </div>
+                <Dados>
+                    <Input type="text" placeholder="Nome impresso no cartão" onChange={e => setCardName(e.target.value)}></Input>
+                    <Input type="number" placeholder="Digitos do cartão" onChange={e => setCardNumber(e.target.value)}></Input>
+                    <Inputs>
+                        <SmallerInput type="number" placeholder="Código de segurança" onChange={e => setSecurityNumber(e.target.value)}></SmallerInput>
+                        <SmallerInput type="text" placeholder="Validade" onChange={e => setExpirationDate(e.target.value)}></SmallerInput>
+                    </Inputs>
+                    <Button type="submit" onClick={() => setShowModal(true)}>ASSINAR</Button>
+                </Dados>
+            </Container>
+            {showModal && <Modal setShowModal={setShowModal}/>}
+        </>
     )
 }
 
 
 const Container = styled.div`
-    padding: 24px 38px 34px 22px;
+    padding-top: 24px;
+    padding-bottom: 34px;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
@@ -185,7 +190,7 @@ const Button = styled.button`
     cursor: pointer;
 `
 
-const StyledLink = styled(Link)`
+const Back = styled.div`
     cursor: pointer;
     display: flex;
     justify-content: start;
