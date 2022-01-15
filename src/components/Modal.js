@@ -4,9 +4,12 @@ import styled from "styled-components";
 import axios from "axios";
 import X from '../assets/close.png'
 import { useNavigate } from 'react-router';
-import {infos} from "../components/Plan";
+import { infos } from "../components/Plan";
+import { useState } from "react/cjs/react.development";
 
-export default function Modal(){
+export default function Modal({ setShowModal }){
+
+    const [image, setImage] = useState('');
 
     const navigate = useNavigate();
 
@@ -30,7 +33,8 @@ export default function Modal(){
         promise.catch(handleFailure);
     }
     
-    function handleSuccess(){
+    function handleSuccess(response){
+        setImage(response.data.image);
         navigate('/home');
     }
 
@@ -40,13 +44,10 @@ export default function Modal(){
 
     return(
         <ContainerModal>
-            <Close>
-                <img src={X}></img>
-            </Close>
             <Caixa>
                 <Texto>Tem certeza que deseja assinar o plano <br></br>Driven Plus (R$ {infos.price})?</Texto>
                 <ButtonsModal>
-                    <NoButton>Não</NoButton>
+                    <NoButton onClick={() => setShowModal(false)}>Não</NoButton>
                     <YesButton onClick={Subscribe}>SIM</YesButton>
                 </ButtonsModal>
             </Caixa>
@@ -60,21 +61,9 @@ const ContainerModal = styled.div`
     background: rgba(0, 0, 0, 0.7);
 
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    
 `
 
-const Close = styled.button`
-    img{
-        position: fixed;
-        top: 25px;
-        right: 620px;
-        z-index: 2;
-        cursor: pointer;
-    }
-`
 
 const Caixa = styled.div`
     width: 248px;

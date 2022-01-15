@@ -9,6 +9,7 @@ export default function Subscriptions(){
 
     const { token } = useContext(UserContext);
 
+    const [image, setImage] = useState('');
     const [planos, setPlanos] = useState([]);
 
 
@@ -21,11 +22,15 @@ export default function Subscriptions(){
         }
 
 		const promise = axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships", config);
-		promise.then(response => {setPlanos(response.data)});
+		promise.then(handleSuccess);
         promise.catch(error => console.log(error.response));
         
 	}, []);
 
+    function handleSuccess(response){
+        setImage(response.data.image);
+        setPlanos(response.data);
+    }
     
      return(
         <Container>

@@ -9,7 +9,8 @@ import Plan from "./components/Plan";
 import UserContext from "./contexcts/UserContext";
 
 export default function App(){
-   
+    const [showModal, setShowModal] = useState(false);
+    
     const [name, setName] = useState('');
     const [membership, setMembership] = useState([]);
     const [token, setToken] = useState('');
@@ -22,7 +23,7 @@ export default function App(){
                     <Route path="/register" element={<Register/>}></Route>
                     <Route path="/subscriptions" element={<Subscriptions/>}></Route>
                     <Route path="/home" element={<Home/>}></Route>
-                    <Route path="/plano/:idPlan" element={<Plan/>}></Route>
+                    <Route path="/plano/:idPlan" element={<Plan showModal={showModal} setShowModal={setShowModal} />}></Route>
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>

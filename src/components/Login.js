@@ -6,12 +6,11 @@ import Logo from '../assets/driven.png'
 import axios from "axios";
 import UserContext from '../contexcts/UserContext';
 
-
 export default function Login(){
     
-    const { setToken, setName, setMembership } = useContext(UserContext);
-
     const navigate = useNavigate();
+    
+    const { setToken, setName, setMembership } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

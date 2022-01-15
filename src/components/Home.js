@@ -12,7 +12,6 @@ export default function Home(){
     const { name, membership, token } = useContext(UserContext);
 
     function changePlan(){
-        cancelPlan();
         navigate('/subscriptions');
     }
 
@@ -33,58 +32,91 @@ export default function Home(){
         }
 
     }
-        
+
     return (
         <Container>
-            <Header>
-                <Logo src={membership.image}></Logo>
-                <img src={User}></img>
-            </Header>
-            <Titulo>Olá, {name}</Titulo>
-
-            <ButtonsTop>
-                {membership.perks.map(perk => 
-                    <a href={perk.link} target="_blank">
-                        <Button>{perk.title}</Button>   
-                    </a>
-                )}
-            </ButtonsTop>
-
-            <ButtonsBottom>
-                <Button onClick={changePlan}>Mudar plano</Button>   
-                <CancelButton onClick={cancelPlan}>Cancelar plano</CancelButton>
-            </ButtonsBottom>
+            <Top>
+                <Images>
+                    <Logo>
+                        <img src={membership.image}></img>
+                    </Logo>
+                    <UserIcon>
+                        <img src={User}></img>
+                    </UserIcon>
+                </Images>
+                <Texto>
+                    <Titulo>Olá, {name}</Titulo>
+                </Texto>
+            </Top>
+            <Bottom>
+                <ButtonsTop>
+                    {membership.perks.map(perk => 
+                        <a href={perk.link} target="_blank">
+                            <Button>{perk.title}</Button>   
+                        </a>
+                    )}
+                </ButtonsTop>
+                <ButtonsBottom>
+                    <Button onClick={changePlan}>Mudar plano</Button>   
+                    <CancelButton onClick={cancelPlan}>Cancelar plano</CancelButton>
+                </ButtonsBottom>
+            </Bottom>
         </Container>
     );
 }
 
 const Container = styled.div`
-    padding-top: 32px;
+    padding-top: 22px;
     padding-bottom: 12px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-direction: column;
+    justify-content: space-between;
 `
 
-const Header = styled.div`
+const Top = styled.div`
+    width: 375px;
+    height: 176px;
+    padding-right: 20px;
+    padding-left: 36px;
+`
+
+const Images = styled.div`
     display: flex;
     justify-content: space-between;
+`
+
+const Bottom = styled.div`
+    width: 375px;
+    height: 491px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`
+
+const Logo = styled.div`
     img{
-        width: 34px;
-        height: 34px;
+        width: 76px;
+        height: 54px;
+        padding-top: 12px;
     }
 `
 
-const Logo = styled.img`
-    width: 74px;
-    height: 51px;
+const UserIcon = styled.div`
+    
+`
+
+const Texto = styled.div`
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
 `
 
 const Titulo = styled.p`
     color: #fff;
     font-size: 24px;
     font-weight: 700;
+    margin-top: 14px;
 `
 
 const ButtonsTop = styled.div`
