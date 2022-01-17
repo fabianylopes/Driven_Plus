@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import styled from "styled-components";
 import Arrow from '../assets/arrow.png';
@@ -12,22 +12,21 @@ import Modal from './Modal';
 export {infos}
 let infos = {}
 
-export default function Plan({showModal, setShowModal}){
-
+export default function Plan({ showModal, setShowModal }){
+ 
     const navigate = useNavigate();
 
     const { idPlan } = useParams();
-    const { token } = useContext(UserContext);
+    const { token,  setMembership, setPerks} = useContext(UserContext);
 
-    const [image, setImage] = useState('');
     const [plan, setPlan] = useState([]);
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [securityNumber, setSecurityNumber] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
 
-
     useEffect(() => {
+        setShowModal(false);
 
         const config = {
             headers: {
@@ -43,8 +42,8 @@ export default function Plan({showModal, setShowModal}){
 	}, []);
 
     function handleSuccess(response){
+        
         setPlan(response.data);
-        setImage(response.data.image);
     }
 
     infos = {
@@ -55,8 +54,6 @@ export default function Plan({showModal, setShowModal}){
         securityNumber: securityNumber,
         expirationDate: expirationDate,
         price: plan.price,
-        image: plan.image,
-        perks: plan.perks
     }
 
     return(
@@ -94,11 +91,10 @@ export default function Plan({showModal, setShowModal}){
                     <Button type="submit" onClick={() => setShowModal(true)}>ASSINAR</Button>
                 </Dados>
             </Container>
-            {showModal && <Modal setShowModal={setShowModal}/>}
+            {showModal && <Modal setShowModal={setShowModal} setMembership={setMembership} setPerks={setPerks} />}
         </>
     )
 }
-
 
 const Container = styled.div`
     padding-top: 24px;
@@ -159,6 +155,7 @@ const Input = styled.input`
         color: #7E7E7E;
     }
 `
+
 const SmallerInput = styled.input`
     width: 145px;
     height: 52px;
@@ -195,5 +192,3 @@ const Back = styled.div`
     display: flex;
     justify-content: start;
 `
-
-

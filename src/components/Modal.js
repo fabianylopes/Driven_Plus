@@ -4,10 +4,11 @@ import X from '../assets/close.png'
 import { useNavigate } from 'react-router';
 import { infos } from "../components/Plan";
 
-export default function Modal({ setShowModal }){
-
+export default function Modal({ setShowModal, setMembership, setPerks }){
+   
     const navigate = useNavigate();
 
+    
     function Subscribe(){
         const config = {
             headers: {
@@ -22,18 +23,23 @@ export default function Modal({ setShowModal }){
             securityNumber: infos.securityNumber,
             expirationDate: infos.expirationDate
         }, 
-        config);
+        config);    
 
         promise.then(handleSuccess);
         promise.catch(handleFailure);
     }
     
-    function handleSuccess(){
-        navigate('/home2');
+    function handleSuccess(response){
+
+        setMembership(response.data.membership);
+        setPerks(response.data.membership.perks);
+        
+        navigate('/home');
     }
 
     function handleFailure(error){
         alert(error.response.data.message);
+        setShowModal(false);
     }
 
     return(

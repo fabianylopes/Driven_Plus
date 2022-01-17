@@ -7,16 +7,16 @@ import axios from "axios";
 import UserContext from '../contexcts/UserContext';
 
 export default function Login(){
-    
+   
     const navigate = useNavigate();
     
-    const { setToken, setName, setMembership } = useContext(UserContext);
+    const { setToken, setName, setMembership, setPerks } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     function handleLogin() {
-    
+
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", {
           email,
           password
@@ -29,18 +29,19 @@ export default function Login(){
     function handleSuccess(response){
         setToken(response.data.token);
         setName(response.data.name);
-        setMembership(response.data.membership);
         
-        const status = response.data.membership;
-        if(status === null){
+        if(response.data.membership === null){
             navigate('/subscriptions');
         }else{
+            setMembership(response.data.membership);
+            setPerks(response.data.membership.perks);
             navigate('/home');
         }
 
     }
 
     function handleFailure(error){
+        console.log(error.response);
         alert(error.response.data.message);
     }
     
@@ -49,7 +50,9 @@ export default function Login(){
             <img src={Logo}></img>
             <Input type="email" placeholder="E-mail" onChange={e => setEmail(e.target.value)}></Input>
             <Input type="password" placeholder="Senha" onChange={e => setPassword(e.target.value)}></Input>
-            <Button type="submit" onClick={handleLogin}>ENTRAR</Button>
+            <Button type="submit" onClick={handleLogin} >
+                ENTRAR
+            </Button>
             <StyledLink to="/register">Não possui uma conta? Cadastre-se</StyledLink>
         </Container>
     );
@@ -89,6 +92,7 @@ const Button = styled.button`
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    opacity: ${(props) => props.handleLoading ? 0.7 : 1};
 `
 
 const StyledLink = styled(Link)`

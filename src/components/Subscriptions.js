@@ -2,16 +2,13 @@ import { useState, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-
 import UserContext from '../contexcts/UserContext';
 
 export default function Subscriptions(){
 
     const { token } = useContext(UserContext);
 
-    const [image, setImage] = useState('');
     const [planos, setPlanos] = useState([]);
-
 
     useEffect(() => {
         
@@ -28,22 +25,21 @@ export default function Subscriptions(){
 	}, []);
 
     function handleSuccess(response){
-        setImage(response.data.image);
         setPlanos(response.data);
     }
     
      return(
         <Container>
             <Titulo>Escolha seu Plano</Titulo>
-            <Plans>
+            <div>
                 {planos.map(plano => 
-                <Link to={`/plano/${plano.id}`}>
+                <Link key={plano.id} to={`/plano/${plano.id}`}>
                     <Plan>
                         <img src={plano.image}></img>
                         <Valor>{plano.price}</Valor>
                     </Plan>
                 </Link>)}
-            </Plans>
+            </div>
         </Container>
     );
 }
@@ -60,10 +56,6 @@ const Titulo = styled.p`
     font-weight: 700;
     font-size: 32px;
     margin-bottom: 24px;
-`
-
-const Plans = styled.div`
-    
 `
 
 const Plan = styled.button`
