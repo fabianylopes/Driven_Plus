@@ -62,7 +62,7 @@ export default function Plan({showModal, setShowModal}){
     return(
         <>
             <Container>
-                <Back to="/subscriptions">
+                <Back onClick={() => navigate("/subscriptions")}>
                     <img src={Arrow}></img>
                 </Back>
                 <Logo>
